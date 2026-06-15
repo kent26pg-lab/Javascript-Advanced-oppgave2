@@ -16,7 +16,13 @@ function addBook() {
   }
 
 const books = getBooks();
+const bokExists = books.some(book => book.title.toLowerCase() === tittel.toLowerCase());
 
+if (bokExists) {
+    alert("Denne boken er allerede registrert!");
+    return;
+
+ }
 books.push({
   id: Date.now(),
   title: document.getElementById(`titleInput`).value.trim(),
