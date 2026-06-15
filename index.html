@@ -1,11 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie logger</title>
-</head>
-<body>
-    
-</body>
+<html lang="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boklogg</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section>
+      <h1>📖 Boklogg</h1>
+    </section>
+
+    <div id="inputDiv">
+      <input id="titleInput" type="text" placeholder="Tittel" />
+      <input id="authorInput" type="text" placeholder="Forfatter" />
+
+      <select id="genreInput">
+        <option value="">Sjanger</option>
+        <option>Roman</option>
+        <option>Thriller</option>
+        <option>Sci-Fi</option>
+        <option>Biografi</option>
+        <option>Annet</option>
+      </select>
+      <input id="pageInput" type="number" placeholder="Sider" />
+      <select id="ratingInput">
+        <option value="">Vurdering</option>
+        <option value="1">⭐1</option>
+        <option value="2">⭐2</option>
+        <option value="3">⭐3</option>
+        <option value="4">⭐4</option>
+        <option value="5">⭐5</option>
+      </select>
+      <button>Legg til</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>
