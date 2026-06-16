@@ -68,3 +68,4 @@ function deleteBook(id) {
   showBooks();
 
  }
+ showBooks();
