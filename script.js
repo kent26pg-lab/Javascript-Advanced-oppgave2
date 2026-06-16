@@ -30,7 +30,9 @@ function addBook() {
     author: document.getElementById(`authorInput`).value.trim(),
     genre: document.getElementById(`genreInput`).value.trim(),
     favoritt: false,
+    
   });
+
 
   saveBooks(books);
   showBooks();
@@ -59,3 +61,10 @@ function showBooks () {
       </tr>
     `).join("") || "<tr><td colspan='5'>Ingen bøker ennå.</td></tr>";
 }
+
+function deleteBook(id) {
+  const books = getBooks().filter(b => b.id !== id);
+  saveBooks(books);
+  showBooks();
+
+ }
