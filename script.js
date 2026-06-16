@@ -41,10 +41,21 @@ function addBook() {
   ratingInput.value = "";
   pageInput.value = "";
 }
-function showBooks() {
-  const books = getBooks();
-  console.log("Current books in storage:", books);
-}
+
 document.getElementById("addBtn").addEventListener("click", addBook);
 
 console.log(localStorage);
+
+function showBooks () {
+  const books = getBooks();
+  document.getElementById(`tableBody`).innerHTML = books
+  .map(({id, title, author,genre, favoritt}) => `
+      <tr>
+        <td>${title}</td>
+        <td>${author || "–"}</td>
+        <td>${genre  || "–"}</td>
+        <td><button onclick="toggleFavoritt(${id})">${favoritt ? "★" : "☆"}</button></td>
+        <td><button onclick="deleteBook(${id})">Slett</button></td>
+      </tr>
+    `).join("") || "<tr><td colspan='5'>Ingen bøker ennå.</td></tr>";
+}
