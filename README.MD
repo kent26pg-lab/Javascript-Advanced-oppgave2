@@ -6,3 +6,15 @@ En liten og enkel nettside for å føre opp hvilken bøker man har lest
 - Bøker lagres i localStorage og er der når man refresher siden
 - Duplikatsjekk. Man kan ikke legge til samme boken flere ganger
 - Slett bøker
+
+## Teknologi 
+- HTML
+- CSS
+- Javascript
+- localStorage
+
+## Hvordan bruke
+- Fylle inn tittel, forfatter, sjanger og gi rangering
+- Trykk legg til
+- bøkene vises i tabellen under
+- Slett bøker fra tabellen med å trykke på Slett 
