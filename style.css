@@ -1,25 +1,25 @@
 * {
-    padding: 5px;
-    gap: 5px;
-    margin: 0px;
-    box-sizing: border-box;
+  padding: 0px;
+  gap: 5px;
+  margin: 0px;
+  box-sizing: border-box;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f0;
 }
 
 section {
-margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
-
 #inputDiv {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0px 20px 0px;
 }
 
 button {
@@ -30,19 +30,19 @@ button {
   border-radius: 6px;
   cursor: pointer;
   font-size: 1rem;
-}
+margin: 20px 0px 20px 0px;}
 
 button:hover {
   background: #357abd;
+  transform: translateY(-10px);
 }
 
 table {
-  width: 600px;
-  border-collapse: collapse;
-  background: white;
+  width: 800px;
   border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background-color: blanchedalmond;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-collapse: collapse;
 }
 
 th {
@@ -51,6 +51,25 @@ th {
   padding: 20px;
 }
 
-td, th {
+td,
+th {
   text-align: center;
+}
+
+td {
+  font-weight: 600;
+  padding: 30px;
+  border-bottom: 1px solid #ccc;
+}
+
+tr:hover td {
+  background: #f0f0f0;
+}
+
+input:focus {
+  background-color: yellow;
+}
+
+select:focus {
+  background-color: yellow;
 }

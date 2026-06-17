@@ -1,30 +1,35 @@
 const key = "booklog";
-
+// Henter bøker fra localStorage
 function getBooks() {
   return JSON.parse(localStorage.getItem(key)) || [];
 }
-
-function saveBooks(books) {
+// lagrer bøker til localStorage
+function savedBooks(books) {
   localStorage.setItem(key, JSON.stringify(books));
 }
-
+// Her har jeg satt addEventListener til når jeg klikker på legg til knappen
+document.getElementById("addBtn").addEventListener("click", addBook);
+// Denne koden kjøres når man trykker på legg til knappen
 function addBook() {
   const tittel = document.getElementById("titleInput").value.trim();
+  // Stopper funskjonen vis man ikke har lagt til noen tittel i feltet
   if (!tittel) {
+    // Da popper denne meldingen opp i nettleseren vis tittelen er tom!
     alert("Tittel er påkrevd");
     return;
   }
 
   const books = getBooks();
+  // some() sjekker om boken allerede finnes i arrayet
   const bokExists = books.some(
     (book) => book.title.toLowerCase() === tittel.toLowerCase()
   );
-
+// Stopper funskjonen vis bok tittelen finnes i arrayet og gir brukeren en melding om at denne boken er allerede registrert
   if (bokExists) {
     alert("Denne boken er allerede registrert!");
     return;
   }
-
+// Legger til den nye boka med de forsjellige verdiene lageret i et Array
   books.push({
     id: Date.now(),
     title: document.getElementById("titleInput").value.trim(),
@@ -36,9 +41,10 @@ function addBook() {
     favoritt: false,
   });
 
-  saveBooks(books);
+  savedBooks(books);
   showBooks();
 
+   // Tømmer inputfeltene etter at boken er lagt til
   titleInput.value = "";
   authorInput.value = "";
   genreInput.value = "";
@@ -46,12 +52,12 @@ function addBook() {
   pageInput.value = "";
   pagesReadInput.value = "";
 }
-
-document.getElementById("addBtn").addEventListener("click", addBook);
-
+// Viser bøkene i tabellen 
 function showBooks() {
   const books = getBooks();
 
+  // map() lager en tabellrad for hver bok etter verdiene i arrayet 
+  // destructuring henter ut verdiene fra hvert bokobjekt
   document.getElementById("tableBody").innerHTML = books
     .map(({ id, title, author, genre, rating, pages, pagesRead, favoritt }) => `
       <tr>
@@ -60,15 +66,29 @@ function showBooks() {
         <td>${genre  || "–"}</td>
         <td>${"⭐".repeat(rating) || "–"}</td>
         <td>${pagesRead || "0"} / ${pages || "–"}</td>
-        <td><button onclick="toggleFavoritt(${id})">${favoritt ? "★" : "☆"}</button></td>
-        <td><button onclick="deleteBook(${id})">Slett</button></td>
+        <td><button class="favoritBtn" data-id="${id}">${favoritt ? "★" : "☆"}</button></td>
+        <td><button class="deleteBtn" data-id="${id}">Slett</button></td>
       </tr>
     `).join("") || "<tr><td colspan='7'>Ingen bøker ennå.</td></tr>";
 }
 
+// Lytter etter klikk på hele tabellen, ikke en enkelt knapp.
+document.getElementById("tableBody").addEventListener("click", function(e) {
+  // henter id fra knappen som ble trykket
+  const id = Number(e.target.dataset.id);
+// Sjekker om favoritt knappen ble trukket
+  if (e.target.classList.contains("favoritBtn")) {
+    toggleFavoritt(id);
+  }
+// sjekker om delete knappen ble trykket
+  if (e.target.classList.contains("deleteBtn")) {
+    deleteBook(id);
+  }
+});
+// Sletter en bok med hjelp av filter()
 function deleteBook(id) {
   const books = getBooks().filter((b) => b.id !== id);
-  saveBooks(books);
+  savedBooks(books);
   showBooks();
 }
 
@@ -76,8 +96,17 @@ function toggleFavoritt(id) {
   const books = getBooks().map((b) =>
     b.id === id ? { ...b, favoritt: !b.favoritt } : b
   );
-  saveBooks(books);
+  savedBooks(books);
   showBooks();
 }
 
+document.getElementById("pageInput").addEventListener("input", function() {
+  this.value = this.value.replace(/[^0-9]/g, "");
+});
+
+document.getElementById("pagesReadInput").addEventListener("input", function() {
+  this.value = this.value.replace(/[^0-9]/g, "");
+});
+
 showBooks();
+console.log(getBooks());
