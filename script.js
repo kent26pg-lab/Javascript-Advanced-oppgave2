@@ -30,9 +30,7 @@ function addBook() {
     author: document.getElementById(`authorInput`).value.trim(),
     genre: document.getElementById(`genreInput`).value.trim(),
     favoritt: false,
-    
   });
-
 
   saveBooks(books);
   showBooks();
@@ -48,24 +46,36 @@ document.getElementById("addBtn").addEventListener("click", addBook);
 
 console.log(localStorage);
 
-function showBooks () {
+function showBooks() {
   const books = getBooks();
-  document.getElementById(`tableBody`).innerHTML = books
-  .map(({id, title, author,genre, favoritt}) => `
+  document.getElementById(`tableBody`).innerHTML =
+    books
+      .map(
+        ({ id, title, author, genre, favoritt }) => `
       <tr>
         <td>${title}</td>
         <td>${author || "–"}</td>
-        <td>${genre  || "–"}</td>
+        <td>${genre || "–"}</td>
         <td><button onclick="toggleFavoritt(${id})">${favoritt ? "★" : "☆"}</button></td>
         <td><button onclick="deleteBook(${id})">Slett</button></td>
       </tr>
-    `).join("") || "<tr><td colspan='5'>Ingen bøker ennå.</td></tr>";
+    `,
+      )
+      .join("") || "<tr><td colspan='5'>Ingen bøker ennå.</td></tr>";
 }
 
 function deleteBook(id) {
-  const books = getBooks().filter(b => b.id !== id);
+  const books = getBooks().filter((b) => b.id !== id);
   saveBooks(books);
   showBooks();
+}
 
- }
- showBooks();
+function toggleFavoritt(id) {
+  const books = getBooks().map(b =>
+    b.id === id ? { ...b, favoritt: !b.favoritt } : b
+  );
+  saveBooks(books);
+  showBooks();
+}
+
+showBooks();
