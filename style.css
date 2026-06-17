@@ -35,3 +35,22 @@ button {
 button:hover {
   background: #357abd;
 }
+
+table {
+  width: 600px;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+th {
+  background: #4a90e2;
+  color: white;
+  padding: 20px;
+}
+
+td, th {
+  text-align: center;
+}

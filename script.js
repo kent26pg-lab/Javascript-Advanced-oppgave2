@@ -29,6 +29,7 @@ function addBook() {
     title: document.getElementById(`titleInput`).value.trim(),
     author: document.getElementById(`authorInput`).value.trim(),
     genre: document.getElementById(`genreInput`).value.trim(),
+    rating: document.getElementById("ratingInput").value,
     favoritt: false,
   });
 
@@ -51,11 +52,12 @@ function showBooks() {
   document.getElementById(`tableBody`).innerHTML =
     books
       .map(
-        ({ id, title, author, genre, favoritt }) => `
+        ({ id, title, author, genre,rating, favoritt }) => `
       <tr>
         <td>${title}</td>
         <td>${author || "–"}</td>
         <td>${genre || "–"}</td>
+         <td>${"⭐".repeat(rating) || "–"}</td>
         <td><button onclick="toggleFavoritt(${id})">${favoritt ? "★" : "☆"}</button></td>
         <td><button onclick="deleteBook(${id})">Slett</button></td>
       </tr>
@@ -71,8 +73,8 @@ function deleteBook(id) {
 }
 
 function toggleFavoritt(id) {
-  const books = getBooks().map(b =>
-    b.id === id ? { ...b, favoritt: !b.favoritt } : b
+  const books = getBooks().map((b) =>
+    b.id === id ? { ...b, favoritt: !b.favoritt } : b,
   );
   saveBooks(books);
   showBooks();
