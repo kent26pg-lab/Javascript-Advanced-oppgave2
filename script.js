@@ -9,7 +9,7 @@ function saveBooks(books) {
 }
 
 function addBook() {
-  const tittel = document.getElementById(`titleInput`).value.trim();
+  const tittel = document.getElementById("titleInput").value.trim();
   if (!tittel) {
     alert("Tittel er påkrevd");
     return;
@@ -17,19 +17,22 @@ function addBook() {
 
   const books = getBooks();
   const bokExists = books.some(
-    (book) => book.title.toLowerCase() === tittel.toLowerCase(),
+    (book) => book.title.toLowerCase() === tittel.toLowerCase()
   );
 
   if (bokExists) {
     alert("Denne boken er allerede registrert!");
     return;
   }
+
   books.push({
     id: Date.now(),
-    title: document.getElementById(`titleInput`).value.trim(),
-    author: document.getElementById(`authorInput`).value.trim(),
-    genre: document.getElementById(`genreInput`).value.trim(),
+    title: document.getElementById("titleInput").value.trim(),
+    author: document.getElementById("authorInput").value.trim(),
+    genre: document.getElementById("genreInput").value.trim(),
     rating: document.getElementById("ratingInput").value,
+    pages: document.getElementById("pageInput").value,
+    pagesRead: document.getElementById("pagesReadInput").value,
     favoritt: false,
   });
 
@@ -41,29 +44,26 @@ function addBook() {
   genreInput.value = "";
   ratingInput.value = "";
   pageInput.value = "";
+  pagesReadInput.value = "";
 }
 
 document.getElementById("addBtn").addEventListener("click", addBook);
 
-console.log(localStorage);
-
 function showBooks() {
   const books = getBooks();
-  document.getElementById(`tableBody`).innerHTML =
-    books
-      .map(
-        ({ id, title, author, genre,rating, favoritt }) => `
+
+  document.getElementById("tableBody").innerHTML = books
+    .map(({ id, title, author, genre, rating, pages, pagesRead, favoritt }) => `
       <tr>
         <td>${title}</td>
         <td>${author || "–"}</td>
-        <td>${genre || "–"}</td>
-         <td>${"⭐".repeat(rating) || "–"}</td>
+        <td>${genre  || "–"}</td>
+        <td>${"⭐".repeat(rating) || "–"}</td>
+        <td>${pagesRead || "0"} / ${pages || "–"}</td>
         <td><button onclick="toggleFavoritt(${id})">${favoritt ? "★" : "☆"}</button></td>
         <td><button onclick="deleteBook(${id})">Slett</button></td>
       </tr>
-    `,
-      )
-      .join("") || "<tr><td colspan='5'>Ingen bøker ennå.</td></tr>";
+    `).join("") || "<tr><td colspan='7'>Ingen bøker ennå.</td></tr>";
 }
 
 function deleteBook(id) {
@@ -74,7 +74,7 @@ function deleteBook(id) {
 
 function toggleFavoritt(id) {
   const books = getBooks().map((b) =>
-    b.id === id ? { ...b, favoritt: !b.favoritt } : b,
+    b.id === id ? { ...b, favoritt: !b.favoritt } : b
   );
   saveBooks(books);
   showBooks();
