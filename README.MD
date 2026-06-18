@@ -9,6 +9,7 @@ En liten og enkel nettside for å føre opp hvilken bøker man har lest
 - Duplikatsjekk. Man kan ikke legge til samme boken flere ganger
 - Slett bøker
 - Legg til en bok som favoritt
+- Redigering for hvor mange sider som du har lest(Denne kan man ikke skrive bokstaver i eller skrive sider over det boken har)
 
 ## Teknologi
 
