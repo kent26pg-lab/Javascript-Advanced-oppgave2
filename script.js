@@ -91,7 +91,7 @@ function deleteBook(id) {
   savedBooks(books);
   showBooks();
 }
-
+// Toggler favoritt med map()
 function toggleFavoritt(id) {
   const books = getBooks().map((b) =>
     b.id === id ? { ...b, favoritt: !b.favoritt } : b
@@ -99,11 +99,11 @@ function toggleFavoritt(id) {
   savedBooks(books);
   showBooks();
 }
-
+// Hindrer bokstaver i sider feltene(de to feltene som er type = numbers)
 document.getElementById("pageInput").addEventListener("input", function() {
   this.value = this.value.replace(/[^0-9]/g, "");
 });
-
+// Hindrer bokstaver i sider feltene(de to feltene som er type = numbers)
 document.getElementById("pagesReadInput").addEventListener("input", function() {
   this.value = this.value.replace(/[^0-9]/g, "");
 });
