@@ -112,7 +112,7 @@ document.getElementById("tableBody").addEventListener("click", function (e) {
       return;
     }
 
-    if (Number(nyeSider) < 0) {
+    if (Number(newPages) < 0) {
       alert("Du kan ikke skrive minus!");
       return;
     }
