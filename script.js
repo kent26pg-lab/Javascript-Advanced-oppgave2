@@ -3,7 +3,7 @@ const key = "booklog";
 function getBooks() {
   return JSON.parse(localStorage.getItem(key)) || [];
 }
-// lagrer bøker til localStorage
+// Lagrer bøker til localStorage
 function savedBooks(books) {
   localStorage.setItem(key, JSON.stringify(books));
 }
@@ -22,14 +22,14 @@ function addBook() {
   const books = getBooks();
   // some() sjekker om boken allerede finnes i arrayet
   const bokExists = books.some(
-    (book) => book.title.toLowerCase() === tittel.toLowerCase()
+    (book) => book.title.toLowerCase() === tittel.toLowerCase(),
   );
-// Stopper funskjonen vis bok tittelen finnes i arrayet og gir brukeren en melding om at denne boken er allerede registrert
+  // Stopper funskjonen vis bok tittelen finnes i arrayet og gir brukeren en melding om at denne boken er allerede registrert
   if (bokExists) {
     alert("Denne boken er allerede registrert!");
     return;
   }
-// Legger til den nye boka med de forsjellige verdiene lageret i et Array
+  // Legger til den nye boka med de forsjellige verdiene lageret i et Array
   books.push({
     id: Date.now(),
     title: document.getElementById("titleInput").value.trim(),
@@ -44,7 +44,7 @@ function addBook() {
   savedBooks(books);
   showBooks();
 
-   // Tømmer inputfeltene etter at boken er lagt til
+  // Tømmer inputfeltene etter at boken er lagt til
   titleInput.value = "";
   authorInput.value = "";
   genreInput.value = "";
@@ -52,61 +52,100 @@ function addBook() {
   pageInput.value = "";
   pagesReadInput.value = "";
 }
-// Viser bøkene i tabellen 
+// Viser bøkene i tabellen
 function showBooks() {
   const books = getBooks();
 
-  // map() lager en tabellrad for hver bok etter verdiene i arrayet 
+  // map() lager en tabellrad for hver bok etter verdiene i arrayet
   // destructuring henter ut verdiene fra hvert bokobjekt
-  document.getElementById("tableBody").innerHTML = books
-    .map(({ id, title, author, genre, rating, pages, pagesRead, favoritt }) => `
+  document.getElementById("tableBody").innerHTML =
+    books
+      .map(
+        ({ id, title, author, genre, rating, pages, pagesRead, favoritt }) => `
       <tr>
         <td>${title}</td>
         <td>${author || "–"}</td>
-        <td>${genre  || "–"}</td>
+        <td>${genre || "–"}</td>
         <td>${"⭐".repeat(rating) || "–"}</td>
         <td>${pagesRead || "0"} / ${pages || "–"}</td>
         <td><button class="favoritBtn" data-id="${id}">${favoritt ? "★" : "☆"}</button></td>
         <td><button class="deleteBtn" data-id="${id}">Slett</button></td>
+        <td><button class="editBtn" data-id="${id}">Rediger</button></td>
       </tr>
-    `).join("") || "<tr><td colspan='7'>Ingen bøker ennå.</td></tr>";
+    `,
+      )
+      .join("") || "<tr><td colspan='7'>Ingen bøker ennå.</td></tr>";
 }
 
 // Lytter etter klikk på hele tabellen, ikke en enkelt knapp.
-document.getElementById("tableBody").addEventListener("click", function(e) {
-  // henter id fra knappen som ble trykket
+document.getElementById("tableBody").addEventListener("click", function (e) {
+  // Henter id fra knappen som ble trykket
   const id = Number(e.target.dataset.id);
-// Sjekker om favoritt knappen ble trukket
+
+  // Sjekker om favoritt knappen ble trykket
   if (e.target.classList.contains("favoritBtn")) {
     toggleFavoritt(id);
   }
-// sjekker om delete knappen ble trykket
+
+  // Sjekker om slett knappen ble trykket
   if (e.target.classList.contains("deleteBtn")) {
     deleteBook(id);
   }
+
+  // Sjekker om rediger knappen ble trykket
+  if (e.target.classList.contains("editBtn")) {
+    const nyeSider = prompt("Hvor mange sider har du lest?");
+    if (nyeSider === null) return;
+
+    // Henter boken som ble trykket på
+    const bok = getBooks().find((b) => b.id === id);
+
+    // Sjekker om nyeSider er større enn totalt antall sider
+    if (Number(nyeSider) > Number(bok.pages)) {
+      alert(`Boken har bare ${bok.pages} sider!`);
+      return;
+    }
+
+    if (isNaN(nyeSider) || nyeSider === "") {
+      alert("Du kan bare skrive tall!");
+      return;
+    }
+
+    const books = getBooks().map((b) =>
+      b.id === id ? { ...b, pagesRead: nyeSider } : b,
+    );
+    savedBooks(books);
+    showBooks();
+  }
 });
+
 // Sletter en bok med hjelp av filter()
 function deleteBook(id) {
   const books = getBooks().filter((b) => b.id !== id);
   savedBooks(books);
   showBooks();
 }
+
 // Toggler favoritt med map()
 function toggleFavoritt(id) {
   const books = getBooks().map((b) =>
-    b.id === id ? { ...b, favoritt: !b.favoritt } : b
+    b.id === id ? { ...b, favoritt: !b.favoritt } : b,
   );
   savedBooks(books);
   showBooks();
 }
-// Hindrer bokstaver i sider feltene(de to feltene som er type = numbers)
-document.getElementById("pageInput").addEventListener("input", function() {
+
+// Hindrer bokstaver i sider feltene
+document.getElementById("pageInput").addEventListener("input", function () {
   this.value = this.value.replace(/[^0-9]/g, "");
 });
-// Hindrer bokstaver i sider feltene(de to feltene som er type = numbers)
-document.getElementById("pagesReadInput").addEventListener("input", function() {
-  this.value = this.value.replace(/[^0-9]/g, "");
-});
+
+// Hindrer bokstaver i sider lest feltet
+document
+  .getElementById("pagesReadInput")
+  .addEventListener("input", function () {
+    this.value = this.value.replace(/[^0-9]/g, "");
+  });
 
 showBooks();
 console.log(getBooks());
