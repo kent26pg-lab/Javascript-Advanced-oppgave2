@@ -34,7 +34,7 @@ button {
 
 button:hover {
   background: #357abd;
-  transform: translateY(-5px);
+  transform: translateY(5px);
 }
 
 table {
@@ -51,10 +51,6 @@ th {
   padding: 20px;
 }
 
-td,
-th {
-  text-align: center;
-}
 
 td {
   font-weight: 600;

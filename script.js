@@ -94,25 +94,32 @@ document.getElementById("tableBody").addEventListener("click", function (e) {
 
   // Sjekker om rediger knappen ble trykket
   if (e.target.classList.contains("editBtn")) {
-    const nyeSider = prompt("Hvor mange sider har du lest?");
-    if (nyeSider === null) return;
+    const newPages = prompt("Hvor mange sider har du lest?");
+    if (newPages === null) return;
 
     // Henter boken som ble trykket på
     const bok = getBooks().find((b) => b.id === id);
 
     // Sjekker om nyeSider er større enn totalt antall sider
-    if (Number(nyeSider) > Number(bok.pages)) {
+    if (Number(newPages) > Number(bok.pages)) {
       alert(`Boken har bare ${bok.pages} sider!`);
       return;
     }
-
-    if (isNaN(nyeSider) || nyeSider === "") {
+    
+    // Sjekker om at det ikke er bokstaver som blir entret når man oppgir ny side value
+    if (isNaN(newPages) || newPages === "") {
       alert("Du kan bare skrive tall!");
       return;
     }
 
+    if (Number(nyeSider) < 0) {
+      alert("Du kan ikke skrive minus!");
+      return;
+    }
+
+
     const books = getBooks().map((b) =>
-      b.id === id ? { ...b, pagesRead: nyeSider } : b,
+      b.id === id ? { ...b, pagesRead: newPages } : b,
     );
     savedBooks(books);
     showBooks();
