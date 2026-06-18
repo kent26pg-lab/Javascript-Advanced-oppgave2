@@ -38,6 +38,7 @@ function addBook() {
     rating: document.getElementById("ratingInput").value,
     pages: document.getElementById("pageInput").value,
     pagesRead: document.getElementById("pagesReadInput").value,
+
     favoritt: false,
   });
 
@@ -74,7 +75,7 @@ function showBooks() {
       </tr>
     `,
       )
-      .join("") || "<tr><td colspan='7'>Ingen bøker ennå.</td></tr>";
+      .join("") || "<tr><td colspan='8'>Ingen bøker ennå.</td></tr>";
 }
 
 // Lytter etter klikk på hele tabellen, ikke en enkelt knapp.
@@ -105,19 +106,19 @@ document.getElementById("tableBody").addEventListener("click", function (e) {
       alert(`Boken har bare ${bok.pages} sider!`);
       return;
     }
-    
+
     // Sjekker om at det ikke er bokstaver som blir entret når man oppgir ny side value
     if (isNaN(newPages) || newPages === "") {
       alert("Du kan bare skrive tall!");
       return;
     }
-
+    // Her kan man ikke gå under 0. Så man kan ikke skrive -
     if (Number(newPages) < 0) {
       alert("Du kan ikke skrive minus!");
       return;
     }
 
-
+    // map() går gjennom alle bøkene og oppdaterer pagesRead på den boken som ble trykket på
     const books = getBooks().map((b) =>
       b.id === id ? { ...b, pagesRead: newPages } : b,
     );
